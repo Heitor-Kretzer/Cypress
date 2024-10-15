@@ -1,0 +1,49 @@
+- Caso de Teste 1, Login com credenciais válidas:
+describe('Login Testes', () => {
+  it('Login com credenciais válidas', () => {
+    cy.visit('/login');
+    cy.get('input[name="username"]').type('usuario_valido');
+    cy.get('input[name="password"]').type('senha_correta');
+    cy.get('button[type="submit"]').click();
+    cy.url().should('include', '/dashboard');
+  });
+});
+
+
+- Caso de Teste 2, Login com credenciais inválidas:
+it('Login com credenciais inválidas', () => {
+  cy.visit('/login');
+  cy.get('input[name="username"]').type('usuario_invalido');
+  cy.get('input[name="password"]').type('senha_errada');
+  cy.get('button[type="submit"]').click();
+  cy.contains('Credenciais inválidas').should('be.visible');
+});
+
+
+- Caso de Teste 3, Cadastro de novo usuário:
+it('Cadastro de novo usuário', () => {
+  cy.visit('/cadastro');
+  cy.get('input[name="name"]').type('Novo Usuário');
+  cy.get('input[name="email"]').type('novo@usuario.com');
+  cy.get('input[name="password"]').type('senha_forte');
+  cy.get('button[type="submit"]').click();
+  cy.url().should('include', '/dashboard');
+});
+
+
+- Caso de Teste 4, Pesquisa de produto ou item:
+it('Pesquisa de produto', () => {
+  cy.visit('/home');
+  cy.get('input[name="search"]').type('produto_exemplo');
+  cy.get('button[type="search"]').click();
+  cy.contains('Produto Exemplo').should('be.visible');
+});
+
+
+- Caso de Teste 5, Logout do sistema:
+it('Logout do sistema', () => {
+  // Presumindo que o usuário já está logado
+  cy.visit('/dashboard');
+  cy.get('button[name="logout"]').click();
+  cy.url().should('include', '/login');
+});
